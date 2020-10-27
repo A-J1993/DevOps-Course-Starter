@@ -6,12 +6,24 @@
     <h1 class="display-4">To-Do App</h1>
     <p class="lead">Just another to-do app.</p>
   </div>
-
+  <div>
+    <form action="" method="post" class="form-example">
+      <div class="form-example">
+        <label for="field_name">Enter task: </label>
+        <input type="text" name="field_name" id="field_name">
+      </div>
+      <div class="form-example">
+        <input type="submit" value="Enter">
+      </div>
+    </form>
+  </div>
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
       <ul class="list-group mb-4">
-        <!-- List the todo items here -->
+        {% for item in items %}
+          <li>{{item.title}}</li>
+        {% endfor %} 
       </ul>
     </div>
   </div>

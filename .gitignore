@@ -27,6 +27,7 @@ lib/
 lib64/
 parts/
 sdist/
+todo_app/trello_config.py
 var/
 wheels/
 pip-wheel-metadata/

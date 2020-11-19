@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+{% block title %}Trello Cards{% endblock %}
+
+{% block content %}
+  <div class="jumbotron">
+    <h1 class="display-4">Trello App</h1>
+    <p class="lead">Do Trello Stufd via API</p>
+  </div>
+  <div>
+    <form action="" method="post" class="form-example">
+      <div class="form-example">
+        <label for="field_name">Enter card: </label>
+        <input type="text" name="field_name" id="field_name">
+      </div>
+      <div class="form-example">
+        <input type="submit" value="Enter">
+      </div>
+    </form>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Cards</h2>
+      <ul class="list-group mb-4">
+        {% for item in items %}
+          <li>{{item.name}}</li>
+        {% endfor %} 
+      </ul>
+    </div>
+  </div>
+{% endblock %}

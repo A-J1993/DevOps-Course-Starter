@@ -9,6 +9,11 @@ import requests
 app = Flask(__name__)
 app.config.from_object(Config)
 
+class ToDoCard():
+
+    def __init__(self, id, name):
+        self.id = id
+        self.name = name
 
 @app.route('/')
 def index():
@@ -26,7 +31,8 @@ def get_cards():
     params = {"key": KEY, "token": TOKEN}
     cards_in_board = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
     cards_in_board =  cards_in_board.json()
-    return render_template('trello.html', items = cards_in_board)
+    to_do_cards = [ToDoCard(card["id"],card["name"]) for card in cards_in_board]
+    return render_template('trello.html', items = to_do_cards)
 
 @app.route('/trello', methods = ['POST'])
 def add_card():
@@ -46,3 +52,5 @@ if __name__ == '__main__':
     app.run()
 print(KEY)
 print(TOKEN)
+
+

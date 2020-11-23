@@ -4,7 +4,7 @@
 {% block content %}
   <div class="jumbotron">
     <h1 class="display-4">Trello App</h1>
-    <p class="lead">Do Trello Stufd via API</p>
+    <p class="lead">Do Trello Stuff via API</p>
   </div>
   <div>
     <form action="" method="post" class="form-example">
@@ -21,7 +21,7 @@
       <h2>Cards</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-          <li>{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form><li>
+          <li>{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
         {% endfor %} 
       </ul>
     </div>

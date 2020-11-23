@@ -50,3 +50,9 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+2020-11-23 Update: The flask app has now been altered so that it is now partially integrated to the Trello Website API. To run the altered app one needs:
+
+-A Trello Account to access the Trello API (This is free)
+
+-To create a config file and/or alter the .env file with the relevent IDs for boards and cards as well as the Account Key and Token (which must be kept secret for security reasons)

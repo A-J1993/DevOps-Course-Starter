@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, request
 from .data.session_items import get_items, add_item
 
 from todo_app.flask_config import Config
-from todo_app.trello_config import KEY, TOKEN, TODOID
+from todo_app.trello_config import KEY, TOKEN, TODOID, DONEID
 
 import requests
 
@@ -34,12 +34,13 @@ def add_card():
     params = {"key": KEY, "token": TOKEN, "name" : card_name, "idList" : TODOID}
     post = requests.post("https://api.trello.com/1/cards/", data = params)
     return redirect(url_for('get_cards'))
-'''
-@app.route('trello/<id>', methods = ['PATCH'])
-def complete_card():
-    params = {"key": KEY, "token": TOKEN, "name" : card_name, "idList" : TODOID}
+
+
+@app.route('/trello/<id>', methods = ['POST'])
+def complete_card(id):
+    params = {"key": KEY, "token": TOKEN, "idList" : DONEID}
+    put = requests.put("https://api.trello.com/1/cards/" + id, data=params)
     return redirect(url_for('get_cards'))
-'''
 
 if __name__ == '__main__':
     app.run()

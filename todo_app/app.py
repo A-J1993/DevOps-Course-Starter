@@ -15,6 +15,15 @@ class ToDoCard():
         self.id = id
         self.name = name
 
+class ViewModel:
+    def __init__(self, items):
+            self._items = items
+    
+    @property
+    def items(self):
+        return self._items
+
+
 @app.route('/')
 def index():
     items = get_items()

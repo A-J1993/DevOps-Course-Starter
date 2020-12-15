@@ -41,7 +41,8 @@ def get_cards():
     cards_in_list = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
     cards_in_list =  cards_in_list.json()
     to_do_cards = [ToDoCard(card["id"],card["name"]) for card in cards_in_list]
-    return render_template('trello.html', items = to_do_cards)
+    view_model = ViewModel(to_do_cards)
+    return render_template('trello.html', view_model = view_model)
 
 @app.route('/trello', methods = ['POST'])
 def add_card():

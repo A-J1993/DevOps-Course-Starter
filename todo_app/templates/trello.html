@@ -20,7 +20,7 @@
     <div class="col-md-12">
       <h2>Cards</h2>
       <ul class="list-group mb-4">
-        {% for item in items %}
+        {% for item in view_model.items %}
           <li>{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
         {% endfor %} 
       </ul>

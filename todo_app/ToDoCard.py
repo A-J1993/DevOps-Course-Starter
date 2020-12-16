@@ -1,3 +1,5 @@
+"establishes the ToDoCard class"
+
 class ToDoCard():
 
     def __init__(self, id, name):

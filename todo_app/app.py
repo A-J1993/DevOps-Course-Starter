@@ -6,10 +6,13 @@ from todo_app.trello_config import KEY, TOKEN, TODOID, DONEID
 
 import requests
 
+from todo_app.ToDoCard import ToDoCard
+from todo_app.ViewModel import ViewModel
+
 app = Flask(__name__)
 app.config.from_object(Config)
 
-class ToDoCard():
+'''class ToDoCard():
 
     def __init__(self, id, name):
         self.id = id
@@ -22,7 +25,7 @@ class ViewModel:
     @property
     def items(self):
         return self._items
-
+'''
 
 @app.route('/')
 def index():

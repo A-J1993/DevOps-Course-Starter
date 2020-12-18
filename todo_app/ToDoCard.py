@@ -4,17 +4,20 @@ import os
 import requests
 
 from todo_app.trello_config import TODOID
+from datetime import datetime
 
 class ToDoCard():
 
-    def __init__(self, id, name, status = "To Do"):
+    def __init__(self, id, name, status = "To Do", dateLastActivity: datetime = datetime.now()):
         self.id = id
         self.name = name
         self.status = status
+        self.dateLastActivity = dateLastActivity
 
     @classmethod
     def from_trello_card(cls, card):
-        status = ""
+        status = "" 
+        dateLastActivity = card["dateLastActivity"]
         if card["listId"] ==  TODOID:
             status = "To Do"
         else:
@@ -22,5 +25,6 @@ class ToDoCard():
         return cls(
             card['id'],
             card['name'],
-            status
-    )
+            status,
+            dateLastActivity
+            )

@@ -41,11 +41,18 @@ def new_item():
 @app.route('/trello')
 def get_cards():
     params = {"key": KEY, "token": TOKEN}
-    cards_in_list = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
-    cards_in_list =  cards_in_list.json()
-    to_do_cards = [ToDoCard(card["id"],card["name"]) for card in cards_in_list]
-    view_model = ViewModel(to_do_cards)
-    return render_template('trello.html', view_model = view_model)
+    to_do_cards_in_list = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
+    to_do_cards_in_list =  to_do_cards_in_list.json()
+    to_do_cards = [ToDoCard.from_trello_card(card) for card in to_do_cards_in_list]
+    view_model_to_do = ViewModel(to_do_cards)
+
+
+    done_cards_in_list = requests.get("https://api.trello.com/1/lists/" + DONEID + "/cards", params = params)
+    done_cards_in_list =  done_cards_in_list.json()
+    done_cards = [ToDoCard.from_trello_card(card) for card in done_cards_in_list]
+
+    view_model_done = ViewModel(done_cards)
+    return render_template('trello.html', view_model_to_do = view_model_to_do, view_model_done = view_model_done)
 
 @app.route('/trello', methods = ['POST'])
 def add_card():

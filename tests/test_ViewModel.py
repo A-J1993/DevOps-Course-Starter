@@ -38,6 +38,7 @@ def timed_card_example_eight():
          ToDoCard(0, "Alpha" ,"Done", right_now)]
 
 
+
 def test_simple_ViewModel_items(simple_test_items):
     simple_ViewModel_items = ViewModel(simple_test_items).items
     assert simple_ViewModel_items == simple_test_items

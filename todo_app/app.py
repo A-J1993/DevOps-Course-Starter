@@ -49,14 +49,14 @@ def get_cards():
     to_do_cards_in_list = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
     to_do_cards_in_list =  to_do_cards_in_list.json()
     to_do_cards = [ToDoCard.from_trello_card(card) for card in to_do_cards_in_list]
-    view_model_to_do = ViewModel(to_do_cards)
+    view_model_to_do = ViewModel(to_do_cards).to_do_items
 
 
     done_cards_in_list = requests.get("https://api.trello.com/1/lists/" + DONEID + "/cards", params = params)
     done_cards_in_list =  done_cards_in_list.json()
     done_cards = [ToDoCard.from_trello_card(card) for card in done_cards_in_list]
 
-    view_model_done = ViewModel(done_cards)
+    view_model_done = ViewModel(done_cards).done_items
     return render_template('trello.html', view_model_to_do = view_model_to_do, view_model_done = view_model_done)
 
 @app.route('/trello', methods = ['POST'])

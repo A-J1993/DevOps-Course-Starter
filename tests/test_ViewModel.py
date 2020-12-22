@@ -45,15 +45,15 @@ def test_simple_ViewModel_items(simple_test_items):
 
 def test_ViewModel_status_to_do(timed_card_example_eight):
     view_model_example = ViewModel(timed_card_example_eight)
-    assert len(view_model_example.to_do_items()) == 2
+    assert len(view_model_example.to_do_items) == 2
 
 def test_ViewModel_status_done(timed_card_example_eight):
     view_model_example = ViewModel(timed_card_example_eight)
-    len(view_model_example.done_items()) == 6
+    len(view_model_example.done_items) == 6
 
 def test_ViewModel_done_items(timed_card_example_eight):
     view_model_example = ViewModel(timed_card_example_eight)
-    view_model_done = view_model_example.done_items()
+    view_model_done = view_model_example.done_items
     assertation = True
     for i in view_model_done:
         if i.status != "Done":
@@ -62,10 +62,10 @@ def test_ViewModel_done_items(timed_card_example_eight):
 
 def test_ViewModel_recent_items(timed_card_example_eight):
     view_model_example = ViewModel(timed_card_example_eight)
-    view_model_done_recent = view_model_example.recent_done_items()
+    view_model_done_recent = view_model_example.recent_done_items
     assert len(view_model_done_recent) == 2
 
 def test_ViewModel_older_items(timed_card_example_eight):
     view_model_example = ViewModel(timed_card_example_eight)
-    view_model_done_recent = view_model_example.older_done_items()
-    assert len(view_model_done_recent) == 4
+    view_model_done_older = view_model_example.older_done_items
+    assert len(view_model_done_older) == 4

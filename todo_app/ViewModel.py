@@ -9,25 +9,29 @@ class ViewModel:
     def items(self):
         return self._items
 
+    @property
     def to_do_items(self):
-        filtered_items = [x for x in self._items if x.status == "To Do"]
-        return filtered_items
+        to_do_items = [x for x in self._items if x.status == "To Do"]
+        return to_do_items
 
+    @property
     def done_items(self):
-        filtered_items = [x for x in self._items if x.status == "Done"]
-        return filtered_items
+        done_items = [x for x in self._items if x.status == "Done"]
+        return done_items
 
     '''
     def show_all_done_items(self):
         return len(self.done_items) <= 5
     '''
 
+    @property
     def recent_done_items(self):
-        filtered_items = [x for x in self._items if x.status == "Done"]
-        filtered_items = [x for x in filtered_items if datetime.now().date() == x.dateLastActivity.date()]
-        return filtered_items
+        done_items = [x for x in self._items if x.status == "Done"]
+        recent_done_items = [x for x in done_items if datetime.now().date() == x.dateLastActivity.date()]
+        return recent_done_items
 
+    @property
     def older_done_items(self):
-        filtered_items = [x for x in self._items if x.status == "Done"]
-        filtered_items = [x for x in filtered_items if datetime.now().date() != x.dateLastActivity.date()]
-        return filtered_items
+        done_items = [x for x in self._items if x.status == "Done"]
+        older_done_items = [x for x in done_items if datetime.now().date() != x.dateLastActivity.date()]
+        return older_done_items

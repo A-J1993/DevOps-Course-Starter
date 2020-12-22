@@ -56,8 +56,9 @@ def get_cards():
     done_cards_in_list =  done_cards_in_list.json()
     done_cards = [ToDoCard.from_trello_card(card) for card in done_cards_in_list]
 
-    view_model_done = ViewModel(done_cards).done_items
-    return render_template('trello.html', view_model_to_do = view_model_to_do, view_model_done = view_model_done)
+    view_model_recent_done = ViewModel(done_cards).recent_done_items
+    view_model_older_done = ViewModel(done_cards).older_done_items
+    return render_template('trello.html', view_model_to_do = view_model_to_do, view_model_recent_done = view_model_recent_done, view_model_older_done = view_model_older_done)
 
 @app.route('/trello', methods = ['POST'])
 def add_card():

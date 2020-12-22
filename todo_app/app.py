@@ -9,8 +9,11 @@ import requests
 from todo_app.ToDoCard import ToDoCard
 from todo_app.ViewModel import ViewModel
 
-app = Flask(__name__)
-app.config.from_object(Config)
+
+def create_app():
+    app = Flask(__name__)
+    app.config.from_object(Config)
+    return app
 
 '''class ToDoCard():
 
@@ -26,6 +29,8 @@ class ViewModel:
     def items(self):
         return self._items
 '''
+
+app = create_app()
 
 @app.route('/')
 def index():

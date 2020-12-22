@@ -35,12 +35,14 @@
     </div>
     <div class="col-md-12">
       <h2>Older Done Cards</h2>
+      <details>
+      <summary>View Cards</summary>
       <ul class="list-group mb-4">
         {% for item in view_model_older_done %}
           <li>{{item.name}}</li>
         {% endfor %} 
       </ul>
+      </details>
     </div>
-
   </div>
 {% endblock %}

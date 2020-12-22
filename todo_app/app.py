@@ -2,7 +2,7 @@ from flask import Flask, render_template, url_for, redirect, request
 from .data.session_items import get_items, add_item
 
 from todo_app.flask_config import Config
-from todo_app.trello_config import KEY, TOKEN, TODOID, DONEID
+from todo_app.trello_config import KEY, TOKEN, TODOID, DONEID, BOARDID
 
 import requests
 
@@ -46,18 +46,14 @@ def new_item():
 @app.route('/trello')
 def get_cards():
     params = {"key": KEY, "token": TOKEN}
-    to_do_cards_in_list = requests.get("https://api.trello.com/1/lists/" + TODOID + "/cards", params = params)
-    to_do_cards_in_list =  to_do_cards_in_list.json()
-    to_do_cards = [ToDoCard.from_trello_card(card) for card in to_do_cards_in_list]
-    view_model_to_do = ViewModel(to_do_cards).to_do_items
+    cards_in_board = requests.get("https://api.trello.com/1/boards/" + BOARDID + "/cards", params = params)
+    cards_in_board =  cards_in_board.json()
+    cards = [ToDoCard.from_trello_card(card) for card in cards_in_board]
+    view_model = ViewModel(cards)
+    view_model_to_do = view_model.to_do_items
 
-
-    done_cards_in_list = requests.get("https://api.trello.com/1/lists/" + DONEID + "/cards", params = params)
-    done_cards_in_list =  done_cards_in_list.json()
-    done_cards = [ToDoCard.from_trello_card(card) for card in done_cards_in_list]
-
-    view_model_recent_done = ViewModel(done_cards).recent_done_items
-    view_model_older_done = ViewModel(done_cards).older_done_items
+    view_model_recent_done = view_model.recent_done_items
+    view_model_older_done = view_model.older_done_items
     return render_template('trello.html', view_model_to_do = view_model_to_do, view_model_recent_done = view_model_recent_done, view_model_older_done = view_model_older_done)
 
 @app.route('/trello', methods = ['POST'])

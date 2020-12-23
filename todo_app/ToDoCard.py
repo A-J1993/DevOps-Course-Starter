@@ -3,7 +3,7 @@
 import os
 import requests
 
-from todo_app.trello_config import TODOID
+import os
 
 from datetime import datetime
 
@@ -19,7 +19,7 @@ class ToDoCard():
     def from_trello_card(cls, card):
         status = ""
         dateLastActivity = datetime.strptime(card["dateLastActivity"], '%Y-%m-%dT%H:%M:%S.%fZ')
-        if card["idList"] == TODOID:
+        if card["idList"] == os.getenv("TRELLO_TODOID"):
             status = "To Do"
         else:
             status = "Done"

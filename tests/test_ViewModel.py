@@ -2,7 +2,7 @@ from todo_app.ToDoCard import ToDoCard
 
 from todo_app.ViewModel import ViewModel
 
-from todo_app.trello_config import TODOID, DONEID
+#from todo_app.trello_config import TODOID, DONEID
 
 import pytest
 from datetime import datetime

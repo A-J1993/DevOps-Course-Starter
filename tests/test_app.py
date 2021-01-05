@@ -6,7 +6,7 @@ import requests
 
 from dotenv import find_dotenv, load_dotenv
 
-@pyest.fixture
+@pytest.fixture
 def client():
     # Use out latest integration config instead of the 'real' version
     file_path = find_dotenv('.env.test')

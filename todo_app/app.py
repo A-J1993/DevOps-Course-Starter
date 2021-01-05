@@ -50,7 +50,8 @@ def create_app():
         return redirect(url_for('get_cards'))
     return app
 
-app = create_app()
+
 
 if __name__ == '__main__':
+    app = create_app()
     app.run()

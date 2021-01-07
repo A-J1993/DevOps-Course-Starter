@@ -105,7 +105,7 @@ def mock_get_cards(url, params):
         response.json.return_value = sample_trello_cards_response
         return response
     return None
-
+'''
 def create_trello_board():
     board_name = "Tempoary Board"
     params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
@@ -136,4 +136,4 @@ def test_app():
     thread.join(1)
     delete_trello_board(board_id)
 
-    
+'''

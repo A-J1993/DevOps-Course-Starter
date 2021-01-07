@@ -8,6 +8,10 @@ from dotenv import find_dotenv, load_dotenv
 
 from unittest.mock import patch 
 
+import os
+
+from threading import Thread
+
 #Allows one to use json values of null and false in a Python framework
 null = None
 false = False
@@ -95,9 +99,20 @@ def test_index_page(mock_get_requests, client):
     assert response.status_code == 200
 
 def mock_get_cards(url, params):
-    if url == f'https://api.trello.com/1/boards/{TEST_BOARD_ID}/lists':
+    if url == f'https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/lists':
         response = Mock()
         # sample_trello_lists_response should point to some test reponse data
         response.json.return_value = sample_trello_cards_response
         return response
     return None
+
+def create_trello_board():
+    board_name = "Tempoary Board"
+    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
+    response = requests.post("https://api.trello.com/1/boards/", data = params)
+    return response.json()['id']
+
+
+def delete_trello_board(trello_board_id):
+    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
+    requests.delete("https://api.trello.com/1/boards/" + trello_board_id, data = params)

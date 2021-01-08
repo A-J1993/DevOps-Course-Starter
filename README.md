@@ -56,3 +56,11 @@ The flask app has now been altered so that it is now partially integrated to the
 -A Trello Account to access the Trello API (This is free)
 
 -A .env file with the Trello Enviromental variables (Key, Token, List IDs etc) inside, as well as a Flask Secret Key as well as the server configuration
+
+In order to test if the app is working, type into the command line 
+
+```bash
+$ poetry run pytest
+```
+
+although if one only wants to launch the end-to-end tests add in `test_e2e` at the end of the command, or `tests` if one only wants to launch unit and integration tests 

@@ -13,7 +13,7 @@
         <input type="text" name="field_name" id="field_name">
       </div>
       <div class="form-example">
-        <input type="submit" value="Enter">
+        <input type="submit" value="Enter" id="Submit Card">
       </div>
     </form>
   <div class="row">
@@ -21,7 +21,7 @@
       <h2>To Do Cards</h2>
       <ul class="list-group mb-4">
         {% for item in view_model.to_do_items %}
-          <li>{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
+          <li class = "Card-Class">{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
         {% endfor %} 
       </ul>
     </div>

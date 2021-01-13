@@ -57,10 +57,13 @@ The flask app has now been altered so that it is now partially integrated to the
 
 -A .env file with the Trello Enviromental variables (Key, Token, List IDs etc) inside, as well as a Flask Secret Key as well as the server configuration
 
+
 In order to test if the app is working, type into the command line 
 
 ```bash
 $ poetry run pytest
 ```
 
-although if one only wants to launch the end-to-end tests add in `test_e2e` at the end of the command, or `tests` if one only wants to launch unit and integration tests 
+although if one only wants to launch the end-to-end tests add in `test_e2e` at the end of the command, or `tests` if one only wants to launch unit and integration tests.
+
+NOTE: For the End to End Tests to function, one needs to have `geckodriver.exe` in the root folder and have Mozilla Firefox installed in the Computer.

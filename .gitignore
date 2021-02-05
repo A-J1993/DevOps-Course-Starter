@@ -120,6 +120,9 @@ env/
 ### Configuration files ###
 .env
 
+### Vagrant Files ###
+.vagrant
+
 # Gecko Driver
 geckodriver.exe
 geckodriver.log

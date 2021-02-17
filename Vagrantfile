@@ -10,7 +10,24 @@ Vagrant.configure("2") do |config|
    echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
    echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
    source ~/.bash_profile
+   pyenv install 3.9.0
+   pyenv global 3.9.0
    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
    source ~/.bash_profile
   SHELL
+  config.vm.network "forwarded_port", guest: 5000, host: 5000
+
+  config.trigger.after :up do |trigger|
+   trigger.name = "Launching App"
+   trigger.info = "Running the TODO app setup script"
+   trigger.run_remote = {privileged: false, inline: "
+     # Install dependencies and launch
+     # <your script here>
+     cd /vagrant
+     poetry install
+     nohup poetry run flask run --host = 0.0.0.0 > logs.txt 2>&1 &
+   "}
+ end
+
+ 
 end

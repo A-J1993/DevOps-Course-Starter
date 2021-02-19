@@ -25,7 +25,7 @@ Vagrant.configure("2") do |config|
      # <your script here>
      cd /vagrant
      poetry install
-     nohup poetry run flask run --host = 0.0.0.0 > logs.txt 2>&1 &
+     nohup poetry run flask run --host=0.0.0.0 > logs.txt 2>&1 &
    "}
  end
 

@@ -122,6 +122,7 @@ env/
 
 ### Vagrant Files ###
 .vagrant
+logs.txt
 
 # Gecko Driver
 geckodriver.exe

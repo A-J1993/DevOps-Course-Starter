@@ -6,14 +6,13 @@ Vagrant.configure("2") do |config|
    libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev libncursesw5-dev \
    xz-utils tk-dev libffi-dev liblzma-dev python-openssl git
    git clone https://github.com/pyenv/pyenv.git ~/.pyenv
-   echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.bash_profile
-   echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> ~/.bash_profile
-   echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
-   source ~/.bash_profile
+   echo 'export PYENV_ROOT="$HOME/.pyenv"' >> ~/.profile
+   echo 'export PATH="$PYENV_ROOT/bin:$PATH"' >> .profile
+   echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> .profile
+   source ~/.profile
    pyenv install 3.9.0
    pyenv global 3.9.0
    curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py | python
-   source ~/.bash_profile
   SHELL
   config.vm.network "forwarded_port", guest: 5000, host: 5000
 
@@ -22,7 +21,6 @@ Vagrant.configure("2") do |config|
    trigger.info = "Running the TODO app setup script"
    trigger.run_remote = {privileged: false, inline: "
      # Install dependencies and launch
-     # <your script here>
      cd /vagrant
      poetry install
      nohup poetry run flask run --host=0.0.0.0 > logs.txt 2>&1 &

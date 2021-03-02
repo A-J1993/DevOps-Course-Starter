@@ -49,6 +49,14 @@ You should see output similar to the following:
  * Debugger is active!
  * Debugger PIN: 226-556-590
 ```
+OR if one wants to run it on a Vagrant VM
+
+```bash
+$ vagrant up
+```
+
+(There won't be a message on the output as it would be directed to a logs file)
+
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 The flask app has now been altered so that it is now partially integrated to the Trello Website API. To run the altered app one needs:

@@ -23,7 +23,6 @@ def create_trello_board():
     board_name = "Tempoary Board"
     params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
     response = requests.post("https://api.trello.com/1/boards/", data = params)
-    print(response.text)
     return response.json()['id']
 
 

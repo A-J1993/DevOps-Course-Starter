@@ -49,9 +49,3 @@ def create_app():
         put = requests.put("https://api.trello.com/1/cards/" + id, data=params)
         return redirect(url_for('get_cards'))
     return app
-
-
-
-if __name__ == '__main__':
-    app = create_app()
-    app.run()

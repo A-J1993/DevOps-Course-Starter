@@ -105,35 +105,3 @@ def mock_get_cards(url, params):
         response.json.return_value = sample_trello_cards_response
         return response
     return None
-'''
-def create_trello_board():
-    board_name = "Tempoary Board"
-    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
-    response = requests.post("https://api.trello.com/1/boards/", data = params)
-    return response.json()['id']
-
-
-def delete_trello_board(trello_board_id):
-    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
-    requests.delete("https://api.trello.com/1/boards/" + trello_board_id, data = params)
-
-@pytest.fixture(scope = 'module')
-def test_app():
-    #Create the new board and update the board id enviroment variable 
-    board_id = create_trello_board()
-    os.environ['TRELLO BOARD ID'] = board_id
-
-    #construct the new application
-    application = app.create_app
-
-    #start the app in its own thread.
-    thread = Thread(target =lambda: application.run(use_reloader = False))
-    thread.daemon = True
-    thread.start()
-    yield app
-
-    #Tear Down
-    thread.join(1)
-    delete_trello_board(board_id)
-
-'''

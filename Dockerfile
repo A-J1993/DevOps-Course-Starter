@@ -7,7 +7,7 @@ COPY poetry.toml .
 COPY pyproject.toml .
 RUN poetry add gunicorn
 RUN poetry install
-COPY .env .
+#COPY .env .
 COPY /todo_app ./todo_app
 #COPY pyproject.toml .
 #COPY poetry.toml .

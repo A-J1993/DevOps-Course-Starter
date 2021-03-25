@@ -32,7 +32,7 @@ $ cp .env.template .env  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-## Running the App
+## Running the App (Non-Docker instructions)
 
 Once the all dependencies have been installed, start the Flask app in development mode within the poetry environment by running:
 ```bash
@@ -75,3 +75,29 @@ $ poetry run pytest
 although if one only wants to launch the end-to-end tests add in `test_e2e` at the end of the command, or `tests` if one only wants to launch unit and integration tests.
 
 NOTE: For the End to End Tests to function, one needs to have `geckodriver.exe` in the root folder and have Mozilla Firefox installed in the Computer.
+
+## Running the App (Docker instructions)
+
+Assuming one has already installed Docker and tested it works to get the app running, first build the image by running:
+
+```bash
+$ docker build --target <stage> --tag 
+```
+
+Where ```<stage>``` is either ```base```, ```development```, or ```production```, and ```<tag>``` is a tag of your choosing 
+
+If just wanting to run the image on the base, run:
+
+```bash
+$ docker run --env-file .env  -p 8080:5000 todo-app:<tag> 
+```
+
+If wanting to run the development or the production build (which should be done via a bind mount), enter on the command line:
+
+```bash
+$ docker run --env-file .env -p 8080:8000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:<tag> 
+```
+
+And then go to [`http://localhost:5000/`](http://localhost:5000/) to view the app.
+
+(You also have the oppotunity to input the ```--detach``` tag after ```docker run``` if you want to run the conatainer in the "background")

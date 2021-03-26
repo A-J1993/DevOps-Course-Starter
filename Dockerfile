@@ -9,7 +9,7 @@ COPY pyproject.toml .
 #RUN poetry add gunicorn
 RUN poetry install
 #COPY .env .
-COPY /todo_app ./todo_app
+#COPY /todo_app ./todo_app
 #COPY pyproject.toml .
 #COPY poetry.toml .
 #COPY poetry.lock .
@@ -18,6 +18,7 @@ EXPOSE 5000
 #ENTRYPOINT poetry run gunicorn --workers=2 "todo_app.app:create_app()" --bind 0.0.0.0
 
 FROM base as production
+COPY /todo_app ./todo_app
 ENTRYPOINT poetry run gunicorn --workers=2 "todo_app.app:create_app()" --bind 0.0.0.0
 
 FROM base as development

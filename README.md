@@ -86,18 +86,18 @@ $ docker build --target <stage> --tag
 
 Where ```<stage>``` is either ```base```, ```development```, or ```production```, and ```<tag>``` is a tag of your choosing 
 
-If just wanting to run the image on the base, run:
+If just wanting to run the image on production, run:
 
 ```bash
-$ docker run --env-file .env  -p 8080:5000 todo-app:<tag> 
+$ docker run --env-file .env  -p 8080:8000 todo-app:<production-tag> 
 ```
 
 If wanting to run the development or the production build (which should be done via a bind mount), enter on the command line:
 
 ```bash
-$ docker run --env-file .env -p 8080:8000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:<tag> 
+$ docker run --env-file .env -p 8080:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:<development-tag> 
 ```
 
-And then go to [`http://localhost:5000/`](http://localhost:5000/) to view the app.
+And then go to [`http://localhost:8080/`](http://localhost:8080/) to view the app.
 
 (You also have the oppotunity to input the ```--detach``` tag after ```docker run``` if you want to run the conatainer in the "background")

@@ -81,7 +81,7 @@ NOTE: For the End to End Tests to function, one needs to have `geckodriver.exe` 
 Assuming one has already installed Docker and tested it works to get the app running, first build the image by running:
 
 ```bash
-$ docker build --target <stage> --tag 
+$ docker build --target <stage> --tag <tag> .
 ```
 
 Where ```<stage>``` is either ```base```, ```development```, or ```production```, and ```<tag>``` is a tag of your choosing 
@@ -89,13 +89,13 @@ Where ```<stage>``` is either ```base```, ```development```, or ```production```
 If just wanting to run the image on production, run:
 
 ```bash
-$ docker run --env-file .env  -p 8080:8000 todo-app:<production-tag> 
+$ docker run --env-file .env  -p 8080:8000 <tag> 
 ```
 
 If wanting to run the development or the production build (which should be done via a bind mount), enter on the command line:
 
 ```bash
-$ docker run --env-file .env -p 8080:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app todo-app:<development-tag> 
+$ docker run --env-file .env -p 8080:5000 --mount type=bind,source="$(pwd)"/todo_app,target=/app/todo_app <tag> 
 ```
 
 And then go to [`http://localhost:8080/`](http://localhost:8080/) to view the app.

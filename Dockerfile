@@ -15,3 +15,11 @@ ENTRYPOINT poetry run gunicorn --workers=2 "todo_app.app:create_app()" --bind 0.
 FROM base as development
 RUN poetry install
 ENTRYPOINT poetry run flask run --host=0.0.0.0
+
+FROM base as test
+RUN poetry install
+COPY .env.test .
+COPY tests ./tests
+COPY test_e2e ./test_e2e
+COPY todo_app ./todo_app
+ENTRYPOINT ["poetry", "run", "pytest"]

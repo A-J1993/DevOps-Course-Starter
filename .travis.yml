@@ -3,7 +3,7 @@
     - module-7
 
 script:
-- echo "hello world"
+  - echo "hello world"
   build:
     context: .
     dockerfile: Dockerfile

@@ -1,2 +1,6 @@
+ branches:
+  only:
+    - module-7
+
 script:
 - echo "hello world"

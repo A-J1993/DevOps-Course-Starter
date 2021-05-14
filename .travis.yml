@@ -4,3 +4,6 @@
 
 script:
 - echo "hello world"
+  build:
+    context: .
+    dockerfile: Dockerfile

@@ -9,10 +9,11 @@ script:
   - echo "hello world"
   - docker build --target test --tag my-test-image . 
   - docker run my-test-image tests
-  - docker run --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
+  - docker run --env SECRET_KEY --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
 
 env:
   global:
+    - SECRET_KEY=secret-key
     - TRELLO_TODOID=5fb51cfd98afad055cb08c82
     - TRELLO_DONEID=5fb51cfd98afad055cb08c84
     - TRELLO_BOARDID=5fb51cfd98afad055cb08c81

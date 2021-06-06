@@ -18,7 +18,6 @@ ENTRYPOINT poetry run flask run --host=0.0.0.0
 
 FROM base as test
 RUN poetry install
-RUN poetry add selenium
 RUN apt-get update -qqy && apt-get install -qqy wget gnupg unzip
 # Install Chrome
 RUN wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | apt-key add - \

@@ -101,3 +101,23 @@ $ docker run --env-file .env -p 8080:5000 --mount type=bind,source="$(pwd)"/todo
 And then go to [`http://localhost:8080/`](http://localhost:8080/) to view the app.
 
 (You also have the oppotunity to input the ```--detach``` tag after ```docker run``` if you want to run the conatainer in the "background")
+
+In addition one can also run Pytests via Docker. Simply build the image from the ```test``` stage
+
+```bash
+$ docker build --target test --tag <tag> .
+```
+
+And then run the image
+
+```bash
+$ docker run <tag> tests
+```
+
+For unit and integration tests. Or
+
+```bash
+$ docker run --env-file .env <tag> test_e2e
+```
+
+for end-to-end testing

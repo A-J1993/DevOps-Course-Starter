@@ -1,0 +1,17 @@
+services:
+  - docker
+
+script:
+  - docker build --target test --tag my-test-image . 
+  - docker run my-test-image tests
+  - docker run --env SECRET_KEY --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
+
+env:
+  global:
+    - SECRET_KEY=secret-key
+    - secure: "wV+sfKT3Nsz2ll3GKf8SDwrbwTHvgTbz/9OHcQalaxW6tOS2LdX1GcHifTlK1JgNnEcORkvjk9asjcw3B1H9NbSZdw0+8pQn5//she0bALHIYDCYcZuRHqwjHtw3Y41YBbFE/8God/e6U/IwYy5Hrlt/SZavCmK/aw8ivfwehiZAe8oPhDq6KnJSErMgmdd2gS+xvClQuhK0p4isRel9XXIuARm1m8viAZtixQdbWH8lZ2pNEzQNdsLmJJ2WazjqkYz34g/sXYJcs8GIk5PlPj3HUWtRbX3DuikzmQdReuxkD7Q/3ONymNDb9xXd7jZGgCeMVGHd+A7Tu8B7eT9Vi7sUm9egs3NPTDD0tFoiKC8DR++WKMxuE8VaEMOnI/CfZaxOnqJOshCViCtOhxV6Il2KGtNjqjOZuf1IlUynD3yvI7V0trzyxwy728H8lCVSIfv7+dZ2Z5k3GX258ny6C00iD3zrqJ/OTv4AYPK3YEiyW/nRFhuDzrPI5JozQM8ibcvCrbYGf7qi6UWZxZ5X2BT1+KIk2ZVRUnSYJRbLeIsmy2MT2wiAcdx4itlrPwWmJiBRN4U8nhqjz/AUsWe+0cHzR1CAfsyjMeQOIEm70HAsU/dFaazHHCgaGFGy/2LyjH/de4SxjSvnF10cvH/7baOMD9aRSY4YeMIs3yNVLdE="
+    - secure: "cJH8SmtvOLrVREmrpk7GLNHqlnBHFqdy1siyRYBa9aDMngRND8zakHiE6ybDUVdLehHlafPBo3QtkRddqj+Pyg4ldrc47g0x5riz/nd5WZ3wqpSdtUZdNOJdqNZVYevS8jmKQ0LuOPPC6Jy/PzwpNSqnP5ZJs5tucEyId2KaaqvX1hKKdo10Adr1nzXUhyPkvc57Uls+mHUMq0v5z24FAshXQlow2F+R7FgqFF4BMOMZFE3hCAOJpRCvPr7/VWs28bc6mEmFt+l333cipuH0wTFtZSsR0Ujk+71ksLID7e4YgHtq4xXS4yO+niorLgDvKhFvp5yNvUmYfN3kXD8tfQNGtLivDnqyJp6mI79+EQMS7yqHlTqRFYBqmhlATw1FIfdMi1Tsrv/XtRgXjKkLfjIqmk6Byjqv7hgqL+cirrdSpDwrTuMTRnZTqWBBoPFwaIbAc3q4YtoG4+sg5/sHQS04xHSAT3Jit1H6tqUBE3k/mPir08bJpVOzBvsvtXyGtr8ItxK2WenuTNjtjr+On/Y+FG7ljTYjQCU5ltyBER5A8tlryJfDDSu5DOGv2mNZf/8idPi6ZXQqZ/KeQyO3QXDkJyxEeJsH5rODNuqgSjDrPs3mqQpsden4JsxMf9OcWnzpOggJk28QIpTD2dsAma9WutviHBrbJZLUONlVZek="
+    - TRELLO_TODOID=5fb51cfd98afad055cb08c82
+    - TRELLO_DONEID=5fb51cfd98afad055cb08c84
+    - TRELLO_BOARDID=5fb51cfd98afad055cb08c81
+    

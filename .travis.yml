@@ -5,6 +5,11 @@ script:
   - docker build --target test --tag my-test-image . 
   - docker run my-test-image tests
   - docker run --env SECRET_KEY --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
+deploy:
+  - docker login --username DOCKER_USERNAME --password DOCKER_PASSWORD
+  - docker build --target production --tag aj1993/my-image-prod:latest .
+  - docker push aj1993/my-image-prod:latest
+
 
 env:
   global:
@@ -14,4 +19,5 @@ env:
     - TRELLO_TODOID=5fb51cfd98afad055cb08c82
     - TRELLO_DONEID=5fb51cfd98afad055cb08c84
     - TRELLO_BOARDID=5fb51cfd98afad055cb08c81
-    
+    - DOCKER_USERNAME=aj1993
+    - secure: "sxh1iNdEEbyhmdPc265HjyNk+ZCffW5zIp3mBxaGEz2Ttwt7gbVKEC5A0DujBeh/dmUahOM1vsP1XPLu3IkTymB1a7EF+7mhyDQbfcunqcxaehYJFgOgK8NHf1SrgGGhlwd7JEk69XuTG9CZfmxqUC2eA+Ztinu9NcUt437THKZ9njX8Kq/1aMi7/5gqttiXZmzKlGzoBLitzUUr9H8AT95p3e82GldI3pVJjCvwLBN+r22zznIQ5z/o32kn9qts6uy+0EX8BUP0evW1px8VkKEAAYxV3/frzwJieJ3a1PF7a7KzG1397GYw60/V3HIdJ1XqiTBbxfFETY4TyC1PBVOQ6241m6Ueac69RrF4lCjECFUjnrDVdN1TWrD9yZrXl/MJAEKA0Gp6kFrhUJHwt2SKeiN6WgAkdFPQJvvVerZhPgy0jt4wUN9WKhM8fX1V+d7C+L7uTWibLRPxTMHFSiDFljyipd6D1Q5+RHode93ZfwplrdCKARjNLz8Lx0fnBHp3FpFESgEPKlkdocrnCF05AxcdypxJydqtzj5O+uZTw5IGiNtr/w6Ew47dHsD1mpyubfSpZNdkWtQdUxO75rgHiQwk6WwKcA8dpAlkOpk5De4HwxT6If4T9nhfJJnz2I3yy67MiKFrgG8DSDxbGV92ydkIOvP2N8EiODYBFVs="

@@ -17,7 +17,7 @@ before_deploy:
   - docker login --username=_ --password=$HEROKU_API_TOKEN registry.heroku.com
 deploy:
   provider: script
-  script: docker pull aj1993/my-image-prod:latest &&  docker tag aj1993/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku cotainer:release --app aptem-trello-app
+  script: docker pull ${DOCKER_USERNAME}/my-image-prod:latest &&  docker tag ${DOCKER_USERNAME}/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku cotainer:release --app aptem-trello-app
 
 
 

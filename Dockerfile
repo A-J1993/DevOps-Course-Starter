@@ -4,6 +4,7 @@ RUN apt-get install -y curl
 WORKDIR /app
 RUN pip install poetry
 COPY poetry.toml .
+COPY poetry.lock .
 COPY pyproject.toml .
 EXPOSE 5000
 

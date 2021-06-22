@@ -18,6 +18,8 @@ before_deploy:
 deploy:
   provider: script
   script: docker pull ${DOCKER_USERNAME}/my-image-prod:latest &&  docker tag ${DOCKER_USERNAME}/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku cotainer:release --app aptem-trello-app
+  on:
+    branch: module-8
 
 
 

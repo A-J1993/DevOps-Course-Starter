@@ -95,7 +95,7 @@ def client():
 def test_index_page(mock_get_requests, client):
     #Replace call to requests.get(url) with our own function
     mock_get_requests.side_effects = mock_get_cards
-    response = client.get('/trello')
+    response = client.get('/')
     assert response.status_code == 200
 
 def mock_get_cards(url, params):

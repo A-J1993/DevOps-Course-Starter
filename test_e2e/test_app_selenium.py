@@ -64,11 +64,11 @@ def driver():
         yield driver
 
 def test_task_journey(driver, test_app):
-    driver.get('http://localhost:5000/trello')
+    driver.get('http://localhost:5000/')
     assert driver.title == 'Trello Cards'
 
 def test_add_card(driver, test_app):
-    driver.get('http://localhost:5000/trello')
+    driver.get('http://localhost:5000/')
     link = driver.find_element_by_id('Submit Card')
     link.click()
     assert driver.find_element_by_class_name("Card-Class")

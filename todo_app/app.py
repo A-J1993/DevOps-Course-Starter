@@ -43,7 +43,7 @@ def create_app():
         return redirect(url_for('get_cards'))
 
 
-    @app.route('/<id>', methods = ['POST'])
+    @app.route('/items/<id>', methods = ['POST'])
     def complete_card(id):
         params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "idList" : os.getenv("TRELLO_DONEID")}
         put = requests.put("https://api.trello.com/1/cards/" + id, data=params)

@@ -21,7 +21,7 @@
       <h2>To Do Cards</h2>
       <ul class="list-group mb-4">
         {% for item in view_model.to_do_items %}
-          <li class = "Card-Class">{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
+          <li class = "Card-Class">{{item.name}}<form action = "items/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
         {% endfor %} 
       </ul>
     </div>

@@ -15,18 +15,18 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object('todo_app.flask_config')
 
-    @app.route('/')
+    @app.route('/hello_world')
     def index():
         items = get_items()
         return render_template('index.html', items = items)
 
-    @app.route('/', methods = ['POST'])
+    @app.route('/hello_world', methods = ['POST'])
     def new_item():
         field_name = request.form['field_name']
         add_item(field_name)
         return redirect(url_for('index'))
 
-    @app.route('/trello')
+    @app.route('/')
     def get_cards():
         params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
         cards_in_board = requests.get("https://api.trello.com/1/boards/" + os.getenv("TRELLO_BOARDID") + "/cards", params = params)
@@ -35,7 +35,7 @@ def create_app():
         view_model = ViewModel(cards)
         return render_template('trello.html', view_model= view_model)
 
-    @app.route('/trello', methods = ['POST'])
+    @app.route('/', methods = ['POST'])
     def add_card():
         card_name = request.form['field_name']
         params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : card_name, "idList" : os.getenv("TRELLO_TODOID")}
@@ -43,7 +43,7 @@ def create_app():
         return redirect(url_for('get_cards'))
 
 
-    @app.route('/trello/<id>', methods = ['POST'])
+    @app.route('/<id>', methods = ['POST'])
     def complete_card(id):
         params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "idList" : os.getenv("TRELLO_DONEID")}
         put = requests.put("https://api.trello.com/1/cards/" + id, data=params)

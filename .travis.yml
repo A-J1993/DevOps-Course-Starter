@@ -1,10 +1,28 @@
 services:
   - docker
 
+branches:
+  only:
+    - master
+    - module-8
+
 script:
   - docker build --target test --tag my-test-image . 
   - docker run my-test-image tests
   - docker run --env SECRET_KEY --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
+before_deploy:
+  - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+  - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
+  - docker push ${DOCKER_USERNAME}/my-image-prod:latest
+  - heroku container:login
+deploy:
+  provider: script
+  script: docker pull ${DOCKER_USERNAME}/my-image-prod:latest &&  docker tag ${DOCKER_USERNAME}/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku container:release web --app aptem-trello-app
+  on:
+    branch: module-8
+
+
+
 
 env:
   global:
@@ -14,4 +32,7 @@ env:
     - TRELLO_TODOID=5fb51cfd98afad055cb08c82
     - TRELLO_DONEID=5fb51cfd98afad055cb08c84
     - TRELLO_BOARDID=5fb51cfd98afad055cb08c81
-    
+    - DOCKER_USERNAME=aj1993
+    - secure: "sxh1iNdEEbyhmdPc265HjyNk+ZCffW5zIp3mBxaGEz2Ttwt7gbVKEC5A0DujBeh/dmUahOM1vsP1XPLu3IkTymB1a7EF+7mhyDQbfcunqcxaehYJFgOgK8NHf1SrgGGhlwd7JEk69XuTG9CZfmxqUC2eA+Ztinu9NcUt437THKZ9njX8Kq/1aMi7/5gqttiXZmzKlGzoBLitzUUr9H8AT95p3e82GldI3pVJjCvwLBN+r22zznIQ5z/o32kn9qts6uy+0EX8BUP0evW1px8VkKEAAYxV3/frzwJieJ3a1PF7a7KzG1397GYw60/V3HIdJ1XqiTBbxfFETY4TyC1PBVOQ6241m6Ueac69RrF4lCjECFUjnrDVdN1TWrD9yZrXl/MJAEKA0Gp6kFrhUJHwt2SKeiN6WgAkdFPQJvvVerZhPgy0jt4wUN9WKhM8fX1V+d7C+L7uTWibLRPxTMHFSiDFljyipd6D1Q5+RHode93ZfwplrdCKARjNLz8Lx0fnBHp3FpFESgEPKlkdocrnCF05AxcdypxJydqtzj5O+uZTw5IGiNtr/w6Ew47dHsD1mpyubfSpZNdkWtQdUxO75rgHiQwk6WwKcA8dpAlkOpk5De4HwxT6If4T9nhfJJnz2I3yy67MiKFrgG8DSDxbGV92ydkIOvP2N8EiODYBFVs="
+    - secure: "gHB0rPSw/O/+FuakWZU8ewq8AorMUHtFPq7YLjIRbQQML3OU6/IptoxjEvzm/HzF9V0dCNB+wKQ8BbjtqENZDSTHY+ftJGsdNB/RpJ9MrXGNA+vATtUueJRnTH+rpiNhfpr2gg0WLX7snQP5CnUrhQ1LpCwPPm1qBqRuGQgByOdgpycd9GVsEHmu8rf3Chzn9yZv5epuQAD0BH+IxPEZQIfh+4bgzgKYoZPg5rl40qTcILZFUnrDAL5AMg5wiCTeZo99lMWLSXWux98N2hCZPQqC+fMQ/mwNkoislQhR13nmNgfqFyNr0jp3EWvqM6yy50hYDkum4znLUjkhlMRLS8trBbMujGku1kGdAXw/fDAPv/k+cQqpPmFmL5Revbpu3ezoM1WUmSnRcdYBPjYgKwxH+g8MJvcwTiwwksqlau/MRPQ+VAPhW1IQDHx+5diK/UXjdohn+gKDC+vT3lteZQzCW14AYtYIiCkgMoAIfag6hoxO5Gic6w6T0udUd4bqAdXBWIWfzSblw5+DweebVELGr8c/hQ2J/ropvV4uHIcKSqyFKvmRpiUTOc/2bmO94ZTv97sa93O2p8nuurZaT4QufzfKsMYdSiBFkT53FMtvDNTAptO2Dl9C/ykh34B2O4LNXyOPzY3Pg8OD1O3Fx2vG5LxoBjL+d1aiJQ6iaCE="
+    - secure: "flpmxrXbgJh4oUmvkx+doeCu/AM3R6LBhZ/jvkyATCQ3wQXXgwxJ5oKz7V8PsQ2ja+XyuUxAlWLRiaebs8UwsHq9apIWyG3S8WLLVEz0M02bFFUX3lNSl0dFSHsSqh4K6gHm/cv4mK4ehw8b7Pvd0VfLwI5YTKS1b994V0PF41NPc9VMyMigwDrN1DkH6yhEdeAvYYdAxd9dTF//78O1C6VnDn4Iq4YroCIAuZgvskJuP7PH8irQPxvIcmTeA0qrQz6vAc3Uq261goAAqdF13ylKN9+unAsYudGG9OKTEVgGUZch1l1W+2ido7pZh5arp3A/jgvhrlkyxc6Xff5U3wMwRFE7O+K9A6lqjFAdwrY9EyJBCAogQvY09kPfY+dL2/3dLl9qdRm8x0OO58ZyfEb2qUidGl/ciTNZv1VBstoTzg43rI8ZOT9RpSYS/jQLdJEjxLJzFMm+2CKmX0YXhj7zk1OoxAE2ayiuwTIz0hQN4qqpKxPhwI4cKLDX47vde1CSmDjMjJCfs4Wj0NE37HzDY7y3nr1YAKXrBdigQga3l7m/mUbPmCWKBNnlzOC6Y9BEcT7FxQiCcZeoiThfDdpeZ2vD3jigZXdDIAjX7e9EswmLzgE85jyBWmQPEf6yOea3uvtrEe87O8nbo5XcZg98fIEmN258wLTEjeGRJGc="

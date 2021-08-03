@@ -1,5 +1,6 @@
 from flask import Flask, render_template, url_for, redirect, request
 from .data.session_items import get_items, add_item
+import pymongo
 
 #from todo_app.flask_config import Config
 
@@ -28,24 +29,36 @@ def create_app():
 
     @app.route('/')
     def get_cards():
-        params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
-        cards_in_board = requests.get("https://api.trello.com/1/boards/" + os.getenv("TRELLO_BOARDID") + "/cards", params = params)
-        cards_in_board =  cards_in_board.json()
-        cards = [ToDoCard.from_trello_card(card) for card in cards_in_board]
+        #params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
+        #cards_in_board = requests.get("https://api.trello.com/1/boards/" + os.getenv("TRELLO_BOARDID") + "/cards", params = params)
+        #cards_in_board =  cards_in_board.json()
+        mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
+        card_board = mongo_client.card_board
+        cards = card_board.cards
+        #cards = [ToDoCard.from_trello_card(card) for card in cards_in_board]
+        all_cards = cards.find()
+        cards = [ToDoCard("id", "name", "status") for card in all_cards]
         view_model = ViewModel(cards)
         return render_template('trello.html', view_model= view_model)
 
     @app.route('/', methods = ['POST'])
     def add_card():
+        mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
+        card_board = mongo_client.card_board
         card_name = request.form['field_name']
-        params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : card_name, "idList" : os.getenv("TRELLO_TODOID")}
-        post = requests.post("https://api.trello.com/1/cards/", data = params)
+        cards = card_board.cards
+        #params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : card_name, "idList" : os.getenv("TRELLO_TODOID")}
+        #post = requests.post("https://api.trello.com/1/cards/", data = params)
+        post = cards.insert_one({"name": card_name, "status": "To Do"})
         return redirect(url_for('get_cards'))
 
 
-    @app.route('/items/<id>', methods = ['POST'])
+    '''@app.route('/items/<id>', methods = ['POST'])
     def complete_card(id):
-        params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "idList" : os.getenv("TRELLO_DONEID")}
-        put = requests.put("https://api.trello.com/1/cards/" + id, data=params)
-        return redirect(url_for('get_cards'))
+        #params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "idList" : os.getenv("TRELLO_DONEID")}
+        #put = requests.put("https://api.trello.com/1/cards/" + id, data=params)
+        mongo_client = pymongo.MongoClient("mongodb+srv://AJ1993:Senkatsam123@cluster0.shd2m.mongodb.net/myFirstDatabase?retryWrites=true&w=majority")
+        card_board = mongo_client.card_board
+
+        return redirect(url_for('get_cards'))'''
     return app

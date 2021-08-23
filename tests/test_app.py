@@ -12,6 +12,11 @@ import os
 
 from threading import Thread
 
+import pymongo
+from datetime import datetime
+from bson.objectid import ObjectId
+import mongomock
+
 #Allows one to use json values of null and false in a Python framework
 null = None
 false = False
@@ -78,18 +83,20 @@ sample_trello_lists_response = [
     }
 ]
 
+sample_pymongo_card = {"_id": ObjectId("610a77c1aac7db49d161c0f6")
+                        ,"name": "card_name"
+                        , "status": "To Do"
+                        , "dateLastActivity": "2020-12-18T16:34:44.809Z"}
+
 @pytest.fixture
 def client():
-    # Use out latest integration config instead of the 'real' version
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
-
-    # Create the new app
-    test_app = app.create_app()
-
-    # Use the app to create a test_client that can be used in our tests
-    with test_app.test_client() as client:
-        yield client 
+    
+    with mongomock.patch(servers=(('fakemongo.com', 27017),)):
+        test_app = app.create_app()
+        with test_app.test_client() as client:
+            yield client
 
 @patch('requests.get')
 def test_index_page(mock_get_requests, client):
@@ -98,10 +105,10 @@ def test_index_page(mock_get_requests, client):
     response = client.get('/')
     assert response.status_code == 200
 
-def mock_get_cards(url, params):
-    if url == f'https://api.trello.com/1/boards/{TRELLO_BOARD_ID}/lists':
+def mock_get_cards(mongo_client, params):
+    if mongo_client == pymongo.MongoClient(f'{MONGO_CLIENT}'):
         response = Mock()
         # sample_trello_lists_response should point to some test reponse data
-        response.json.return_value = sample_trello_cards_response
+        response.json.return_value = sample_pymongo_card
         return response
     return None

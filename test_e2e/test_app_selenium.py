@@ -5,6 +5,8 @@ import os
 import todo_app.app as app
 from dotenv import find_dotenv, load_dotenv
 from threading import Thread
+import pymongo
+import datetime
 
 @pytest.fixture
 def client():
@@ -19,6 +21,20 @@ def client():
     with test_app.test_client() as client:
         yield client 
 
+
+
+def create_database(client, database_name):
+    #database_name = "Temporary Database"
+    db = client[database_name]
+    temp_collection = db.temp_collection
+    post = temp_collection.insert_one({"name": "test", "status": "To Do", "dateLastActivity": datetime.now()})
+    assert database_name in client.list_database_names()
+
+def delete_database(client, database_name):
+    client[database_name].dropDatabase()
+    assert database_name not in client.list_database_names()
+
+'''
 def create_trello_board():
     board_name = "Tempoary Board"
     params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
@@ -29,16 +45,20 @@ def create_trello_board():
 def delete_trello_board(trello_board_id):
     params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
     requests.delete("https://api.trello.com/1/boards/" + trello_board_id, data = params)
-
+'''
 @pytest.fixture(scope = 'module')
 def test_app():
     #Create the new board and update the board id enviroment variable 
 
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
+    mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
 
-    board_id = create_trello_board()
-    os.environ['TRELLO BOARD ID'] = board_id
+    database_name = "Temporary Database"
+    create_database(mongo_client, database_name)
+
+    #board_id = create_trello_board()
+    #os.environ['TRELLO BOARD ID'] = board_id
 
     #construct the new application
     application = app.create_app()
@@ -51,7 +71,8 @@ def test_app():
 
     #Tear Down
     thread.join(1)
-    delete_trello_board(board_id)
+    #delete_trello_board(board_id)
+    delete_database(mongo_client, database_name)
 
 
 @pytest.fixture(scope = "module")

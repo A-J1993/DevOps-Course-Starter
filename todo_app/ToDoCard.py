@@ -35,6 +35,6 @@ class ToDoCard():
         return cls(
             card['_id'],
             card['name'],
-            status,
+            card['status'],
             card["dateLastActivity"]
             )

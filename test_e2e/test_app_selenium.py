@@ -5,7 +5,7 @@ import os
 import todo_app.app as app
 from dotenv import find_dotenv, load_dotenv
 from threading import Thread
-import pymongo
+from pymongo import MongoClient 
 import datetime
 
 @pytest.fixture
@@ -24,14 +24,14 @@ def client():
 
 
 def create_database(client, database_name):
-    #database_name = "Temporary Database"
+    #database_name = "Temporary_Database"
     db = client[database_name]
     temp_collection = db.temp_collection
-    post = temp_collection.insert_one({"name": "test", "status": "To Do", "dateLastActivity": datetime.now()})
+    post = temp_collection.insert_one({"name": "test", "status": "To Do", "dateLastActivity": datetime.datetime.now()})
     assert database_name in client.list_database_names()
 
 def delete_database(client, database_name):
-    client[database_name].dropDatabase()
+    client.drop_database(database_name)
     assert database_name not in client.list_database_names()
 
 '''
@@ -52,9 +52,9 @@ def test_app():
 
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
-    mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
+    mongo_client = MongoClient(os.getenv("MONGO_CLIENT"))
 
-    database_name = "Temporary Database"
+    database_name = "Temporary_Database"
     create_database(mongo_client, database_name)
 
     #board_id = create_trello_board()

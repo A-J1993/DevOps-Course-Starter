@@ -16,20 +16,6 @@ class ToDoCard():
         self.dateLastActivity = dateLastActivity
 
     @classmethod
-    def from_trello_card(cls, card):
-        status = ""
-        dateLastActivity = datetime.strptime(card["dateLastActivity"], '%Y-%m-%dT%H:%M:%S.%fZ')
-        if card["idList"] == os.getenv("TRELLO_TODOID"):
-            status = "To Do"
-        else:
-            status = "Done"
-        return cls(
-            card['id'],
-            card['name'],
-            status,
-            dateLastActivity
-            )
-    @classmethod
     def from_mongo_card(cls, card):
         status = "To Do"
         return cls(

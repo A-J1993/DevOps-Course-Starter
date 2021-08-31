@@ -14,10 +14,10 @@ pytz = "^2020.4"
 selenium = "^3.141.0"
 gunicorn = "^20.0.4"
 pymongo = {extras = ["srv"], version = "^3.12.0"}
-mongomock = "^3.23.0"
 
 
 [tool.poetry.dev-dependencies]
+mongomock = "^3.23.0"
 
 [build-system]
 requires = ["poetry>=0.12"]

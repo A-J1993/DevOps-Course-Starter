@@ -22,14 +22,14 @@ def client():
         yield client 
 
 
-
+'''
 def create_database(client, database_name):
     #database_name = "Temporary_Database"
     db = client[database_name]
     temp_collection = db.temp_collection
     post = temp_collection.insert_one({"name": "test", "status": "To Do", "dateLastActivity": datetime.datetime.now()})
     assert database_name in client.list_database_names()
-
+'''
 def delete_database(client, database_name):
     client.drop_database(database_name)
     assert database_name not in client.list_database_names()
@@ -43,7 +43,7 @@ def test_app():
     mongo_client = MongoClient(os.getenv("MONGO_CLIENT"))
 
     database_name = "Temporary_Database"
-    create_database(mongo_client, database_name)
+    os.environ["DB_NAME"] = database_name
     
     #construct the new application
     application = app.create_app()

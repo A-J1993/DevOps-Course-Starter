@@ -33,7 +33,7 @@ def create_app():
     @app.route('/')
     def get_cards():
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
-        card_board = mongo_client.card_board
+        card_board = mongo_client[os.getenv("DB_NAME")]
         cards = card_board.cards
         all_cards = [ToDoCard.from_mongo_card(card) for card in cards.find()]
         view_model = ViewModel(all_cards)
@@ -42,7 +42,7 @@ def create_app():
     @app.route('/', methods = ['POST'])
     def add_card():
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
-        card_board = mongo_client.card_board
+        card_board = mongo_client[os.getenv("DB_NAME")]
         card_name = request.form['field_name']
         cards = card_board.cards
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
@@ -52,7 +52,7 @@ def create_app():
     @app.route('/items/<_id>', methods = ['POST'])
     def complete_card(_id):
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
-        card_board = mongo_client.card_board
+        card_board = mongo_client[os.getenv("DB_NAME")]
         cards = card_board.cards
         card_to_update = cards.update_one({"_id":ObjectId(_id)}, {"$set" : {"status": "Done", "dateLastActivity": datetime.now()}})
         return redirect(url_for('get_cards'))

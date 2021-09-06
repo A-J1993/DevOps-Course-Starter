@@ -98,17 +98,14 @@ def client():
         with test_app.test_client() as client:
             yield client
 
-@patch('requests.get')
-def test_index_page(mock_get_requests, client):
+def test_index_page(client):
     #Replace call to requests.get(url) with our own function
-    mock_get_requests.side_effects = mock_get_cards
+    mock_setup_cards()
     response = client.get('/')
     assert response.status_code == 200
 
-def mock_get_cards(mongo_client, params):
-    if mongo_client == pymongo.MongoClient(f'{MONGO_CLIENT}'):
-        response = Mock()
-        # sample_trello_lists_response should point to some test reponse data
-        response.json.return_value = sample_pymongo_card
-        return response
-    return None
+def mock_setup_cards():
+    mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
+    card_board = mongo_client.card_board
+    cards = card_board.cards
+    post = cards.insert_one(sample_pymongo_card)

@@ -61,10 +61,12 @@ Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser
 
 The flask app has now been altered so that it is now partially integrated to the Trello Website API. To run the altered app one needs:
 
+TO BE DELETED DUE TO NOW USING THE MONGODB
 -A Trello Account to access the Trello API (This is free)
 
 -A .env file with the Trello Enviromental variables (Key, Token, List IDs etc) inside, as well as a Flask Secret Key as well as the server configuration
 
+ADD IN MONGODB Infomation
 
 In order to test if the app is working, type into the command line 
 

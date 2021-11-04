@@ -1,14 +1,15 @@
 from flask import Flask, render_template, url_for, redirect, request
 from flask_login.utils import login_user
 from werkzeug.datastructures import Accept
-from .data.session_items import get_items, add_item
+
+from todo_app.data.user import User
 import pymongo
 from datetime import datetime
 from bson.objectid import ObjectId
 from flask_login import LoginManager, login_required
 from oauthlib.oauth2 import WebApplicationClient
 
-#from todo_app.flask_config import Config
+from todo_app.flask_config import Config
 
 
 import requests
@@ -23,7 +24,7 @@ import os
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object('todo_app.flask_config')
+    app.config.from_object(Config())
 
     login_manager = LoginManager()
 
@@ -39,16 +40,6 @@ def create_app():
     
     login_manager.init_app(app)
 
-    @app.route('/hello_world')
-    def index():
-        items = get_items()
-        return render_template('index.html', items = items)
-
-    @app.route('/hello_world', methods = ['POST'])
-    def new_item():
-        field_name = request.form['field_name']
-        add_item(field_name)
-        return redirect(url_for('index'))
 
     @app.route('/')
     @login_required

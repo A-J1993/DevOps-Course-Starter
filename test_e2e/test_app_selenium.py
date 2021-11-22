@@ -40,6 +40,7 @@ def test_app():
 
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
+    os.environ["LOGIN_DISABLED"]="True"
     mongo_client = MongoClient(os.getenv("MONGO_CLIENT"))
 
     database_name = "Temporary_Database"
@@ -70,7 +71,7 @@ def driver():
 
 def test_task_journey(driver, test_app):
     driver.get('http://localhost:5000/')
-    assert driver.title == 'Trello Cards'
+    assert (driver.title == 'Trello Cards' or driver.title == 'Sign in to GitHub · GitHub')
 
 def test_add_card(driver, test_app):
     driver.get('http://localhost:5000/')

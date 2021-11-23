@@ -63,6 +63,7 @@ def create_app():
         user_response = requests.get(url, headers=headers, data=body)
         user  = User(user_response.json()['id'])
         login_user(user)
+        print("User ID is: " + str(user.id))
         return redirect(url_for('get_cards'))
 
     

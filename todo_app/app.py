@@ -6,7 +6,7 @@ from todo_app.data.user import User
 import pymongo
 from datetime import datetime
 from bson.objectid import ObjectId
-from flask_login import LoginManager, login_required
+from flask_login import LoginManager, login_required, current_user
 from oauthlib.oauth2 import WebApplicationClient
 
 from todo_app.flask_config import Config
@@ -14,12 +14,24 @@ from todo_app.flask_config import Config
 
 import requests
 import os
+import functools
+
 
 from todo_app.ToDoCard import ToDoCard
 from todo_app.ViewModel import ViewModel
 
 import os
 
+
+def writer_required(func):
+    @functools.wraps(func)
+    def writer_check():
+        if current_user.user_id != os.getenv("USER_ID"):
+            raise ValueError('Access Denied: Does Not Have Appropiate Privilages')
+            #redirect back to page or new page with 403 error?
+        else:
+            func()
+    return writer_check
 
 
 def create_app():
@@ -67,7 +79,7 @@ def create_app():
         return redirect(url_for('get_cards'))
 
     
-
+    @writer_required
     @app.route('/', methods = ['POST'])
     def add_card():
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
@@ -77,7 +89,7 @@ def create_app():
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
         return redirect(url_for('get_cards'))
 
-
+    @writer_required
     @app.route('/items/<_id>', methods = ['POST'])
     def complete_card(_id):
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))

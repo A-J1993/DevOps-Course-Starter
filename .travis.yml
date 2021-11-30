@@ -5,6 +5,7 @@ branches:
   only:
     - master
     - module-9
+    - module-10
 
 script:
   - docker build --target test --tag my-test-image . 

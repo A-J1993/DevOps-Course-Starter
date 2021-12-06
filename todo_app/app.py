@@ -89,8 +89,8 @@ def create_app():
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
         return redirect(url_for('get_cards'))
 
-    @app.route('/items/<_id>', methods = ['POST'])
     @writer_required
+    @app.route('/items/<_id>', methods = ['POST'])
     def complete_card(_id):
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
         card_board = mongo_client[os.getenv("DB_NAME")]

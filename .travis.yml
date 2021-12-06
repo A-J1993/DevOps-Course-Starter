@@ -10,7 +10,6 @@ branches:
 script:
   - docker build --target test --tag my-test-image . 
   - docker run my-test-image tests
-  #- docker run --env SECRET_KEY --env TRELLO_TODOID --env TRELLO_DONEID --env TRELLO_BOARDID --env TRELLO_KEY --env TRELLO_TOKEN my-test-image test_e2e
   - docker run --env SECRET_KEY --env MONGO_CLIENT my-test-image test_e2e
 before_deploy:
   - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD

@@ -21,15 +21,6 @@ def client():
     with test_app.test_client() as client:
         yield client 
 
-
-'''
-def create_database(client, database_name):
-    #database_name = "Temporary_Database"
-    db = client[database_name]
-    temp_collection = db.temp_collection
-    post = temp_collection.insert_one({"name": "test", "status": "To Do", "dateLastActivity": datetime.datetime.now()})
-    assert database_name in client.list_database_names()
-'''
 def delete_database(client, database_name):
     client.drop_database(database_name)
     assert database_name not in client.list_database_names()

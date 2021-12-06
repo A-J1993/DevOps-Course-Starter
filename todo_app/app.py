@@ -30,7 +30,7 @@ def writer_required(func):
             raise ValueError('Access Denied: Does Not Have Appropiate Privilages')
             #redirect back to page or new page with 403 error?
         else:
-            return func()
+            func()
     return writer_check
 
 

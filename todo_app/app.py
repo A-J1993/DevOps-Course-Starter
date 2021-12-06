@@ -26,7 +26,7 @@ import os
 def writer_required(func):
     @functools.wraps(func)
     def writer_check():
-        if current_user.user_id != os.getenv("USER_ID"):
+        if os.getenv('LOGIN_DISABLED') != 'True' and current_user.isrole != "writer":
             raise ValueError('Access Denied: Does Not Have Appropiate Privilages')
             #redirect back to page or new page with 403 error?
         else:

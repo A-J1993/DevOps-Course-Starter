@@ -30,7 +30,7 @@ def writer_required(func):
             raise ValueError('Access Denied: Does Not Have Appropiate Privilages')
             #redirect back to page or new page with 403 error?
         else:
-            func()
+            return func()
     return writer_check
 
 
@@ -64,7 +64,7 @@ def create_app():
         return render_template('cards.html', view_model= view_model)
     
     @app.route('/login/callback')
-    def something():
+    def verification():
         auth_code = request.args['code']
         data = {"code": auth_code, "client_id": os.getenv("CLIENT_ID"), "client_secret": os.getenv("CLIENT_SECRET")}
         #requests.get("https://github.com/login/oauth/authorize", data = data)
@@ -79,8 +79,8 @@ def create_app():
         return redirect(url_for('get_cards'))
 
     
-    @writer_required
     @app.route('/', methods = ['POST'])
+    @writer_required
     def add_card():
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
         card_board = mongo_client[os.getenv("DB_NAME")]
@@ -89,8 +89,8 @@ def create_app():
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
         return redirect(url_for('get_cards'))
 
-    @writer_required
     @app.route('/items/<_id>', methods = ['POST'])
+    @writer_required
     def complete_card(_id):
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
         card_board = mongo_client[os.getenv("DB_NAME")]
@@ -98,6 +98,5 @@ def create_app():
         card_to_update = cards.update_one({"_id":ObjectId(_id)}, {"$set" : {"status": "Done", "dateLastActivity": datetime.now()}})
         return redirect(url_for('get_cards'))
     
-
     return app
 

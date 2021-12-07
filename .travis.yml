@@ -20,7 +20,7 @@ deploy:
   provider: script
   script: docker pull ${DOCKER_USERNAME}/my-image-prod:latest &&  docker tag ${DOCKER_USERNAME}/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku container:release web --app aptem-trello-app
   on:
-    branch: module-9
+    branch: module-10
 
 
 

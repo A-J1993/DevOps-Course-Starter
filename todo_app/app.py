@@ -25,12 +25,12 @@ import os
 
 def writer_required(func):
     @functools.wraps(func)
-    def writer_check():
+    def writer_check(*args, **kwargs):
         if os.getenv('LOGIN_DISABLED') != 'True' and current_user.isrole != "writer":
             raise ValueError('Access Denied: Does Not Have Appropiate Privilages')
             #redirect back to page or new page with 403 error?
         else:
-            return func()
+            return func(*args, **kwargs)
     return writer_check
 
 
@@ -89,8 +89,9 @@ def create_app():
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
         return redirect(url_for('get_cards'))
 
-    @writer_required
+    
     @app.route('/items/<_id>', methods = ['POST'])
+    @writer_required
     def complete_card(_id):
         mongo_client = pymongo.MongoClient(os.getenv("MONGO_CLIENT"))
         card_board = mongo_client[os.getenv("DB_NAME")]

@@ -3,8 +3,8 @@
 
 {% block content %}
   <div class="jumbotron">
-    <h1 class="display-4">Trello App</h1>
-    <p class="lead">Do Trello Stuff via API</p>
+    <h1 class="display-4">MongoDB App</h1>
+    <p class="lead">Make a To-Do List via MongoDB API</p>
   </div>
   <div>
     <form action="" method="post" class="form-example">
@@ -21,7 +21,7 @@
       <h2>To Do Cards</h2>
       <ul class="list-group mb-4">
         {% for item in view_model.to_do_items %}
-          <li class = "Card-Class">{{item.name}}<form action = "trello/{{item.id}}" method = "post"><button type = "submit">Done</button></form></li>
+          <li class = "Card-Class">{{item.name}}<form action = "items/{{item._id}}" method = "post"><button type = "submit">Done</button></form></li>
         {% endfor %} 
       </ul>
     </div>

@@ -127,3 +127,6 @@ logs.txt
 # Gecko Driver
 geckodriver.exe
 geckodriver.log
+
+#Chrome Driver
+chromedriver.exe

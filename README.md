@@ -59,12 +59,9 @@ $ vagrant up
 
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
-The flask app has now been altered so that it is now partially integrated to the Trello Website API. To run the altered app one needs:
+The flask app has now been altered so that it is now integrated to the MongoDB Server.
 
--A Trello Account to access the Trello API (This is free)
-
--A .env file with the Trello Enviromental variables (Key, Token, List IDs etc) inside, as well as a Flask Secret Key as well as the server configuration
-
+In order to run the app one needs to have access to a MongoDB Client and to ensure one has the correct Mongo Client connection string in their environment file. 
 
 In order to test if the app is working, type into the command line 
 
@@ -121,3 +118,9 @@ $ docker run --env-file .env <tag> test_e2e
 ```
 
 for end-to-end testing
+
+## Instrictions for CI/CD build
+
+While one can run pull request builds at ease via the Travis Website, one can only use Continuous Delivery with a git push build (a build that occurs in Travis once there is a git push) which then passes through to Heroku.
+
+While Travis file uses travis.yml to get the variables for the CI build, one needs to go to the Heroku website directly to insert the Environment Variables.

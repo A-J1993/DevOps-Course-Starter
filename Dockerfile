@@ -6,6 +6,7 @@ RUN pip install poetry
 COPY poetry.toml .
 COPY poetry.lock .
 COPY pyproject.toml .
+ENV DB_NAME=card_board
 EXPOSE 5000
 
 FROM base as production

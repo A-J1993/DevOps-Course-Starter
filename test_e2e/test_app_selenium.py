@@ -5,6 +5,8 @@ import os
 import todo_app.app as app
 from dotenv import find_dotenv, load_dotenv
 from threading import Thread
+from pymongo import MongoClient 
+import datetime
 
 @pytest.fixture
 def client():
@@ -19,16 +21,9 @@ def client():
     with test_app.test_client() as client:
         yield client 
 
-def create_trello_board():
-    board_name = "Tempoary Board"
-    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN"), "name" : board_name}
-    response = requests.post("https://api.trello.com/1/boards/", data = params)
-    return response.json()['id']
-
-
-def delete_trello_board(trello_board_id):
-    params = {"key": os.getenv("TRELLO_KEY"), "token": os.getenv("TRELLO_TOKEN")}
-    requests.delete("https://api.trello.com/1/boards/" + trello_board_id, data = params)
+def delete_database(client, database_name):
+    client.drop_database(database_name)
+    assert database_name not in client.list_database_names()
 
 @pytest.fixture(scope = 'module')
 def test_app():
@@ -36,10 +31,12 @@ def test_app():
 
     file_path = find_dotenv('.env')
     load_dotenv(file_path, override=True)
+    os.environ["LOGIN_DISABLED"]="True"
+    mongo_client = MongoClient(os.getenv("MONGO_CLIENT"))
 
-    board_id = create_trello_board()
-    os.environ['TRELLO BOARD ID'] = board_id
-
+    database_name = "Temporary_Database"
+    os.environ["DB_NAME"] = database_name
+    
     #construct the new application
     application = app.create_app()
 
@@ -51,7 +48,7 @@ def test_app():
 
     #Tear Down
     thread.join(1)
-    delete_trello_board(board_id)
+    delete_database(mongo_client, database_name)
 
 
 @pytest.fixture(scope = "module")
@@ -64,11 +61,11 @@ def driver():
         yield driver
 
 def test_task_journey(driver, test_app):
-    driver.get('http://localhost:5000/trello')
-    assert driver.title == 'Trello Cards'
+    driver.get('http://localhost:5000/')
+    assert (driver.title == 'Trello Cards' or driver.title == 'Sign in to GitHub · GitHub')
 
 def test_add_card(driver, test_app):
-    driver.get('http://localhost:5000/trello')
+    driver.get('http://localhost:5000/')
     link = driver.find_element_by_id('Submit Card')
     link.click()
     assert driver.find_element_by_class_name("Card-Class")

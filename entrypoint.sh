@@ -1,1 +1,1 @@
-poetry run gunicorn --workers=2 "todo_app.app:create_app()" --bind "0.0.0.0:$PORT"
+poetry run gunicorn --workers=2 "todo_app.app:create_app()" --bind 0.0.0.0:$PORT

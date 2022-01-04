@@ -6,12 +6,12 @@ branches:
     - master
     - module-9
     - module-10
+    - module-11
 
 script:
   - docker build --target test --tag my-test-image . 
   - docker run my-test-image tests
   - docker run --env SECRET_KEY --env MONGO_CLIENT my-test-image test_e2e
-  - bash webhook.sh 
 before_deploy:
   - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
@@ -19,9 +19,9 @@ before_deploy:
   - heroku container:login
 deploy:
   provider: script
-  script: docker pull ${DOCKER_USERNAME}/my-image-prod:latest &&  docker tag ${DOCKER_USERNAME}/my-image-prod:latest registry.heroku.com/aptem-trello-app/web && docker push registry.heroku.com/aptem-trello-app/web && heroku container:release web --app aptem-trello-app
+  script: bash webhook.sh 
   on:
-    branch: module-10
+    branch: module-11
 
 
 

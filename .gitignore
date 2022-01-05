@@ -130,3 +130,9 @@ geckodriver.log
 
 #Chrome Driver
 chromedriver.exe
+
+#Terraform_files
+.terraform.lock.hcl
+.terraform/
+terraform.tfstate
+terraform.tfstate.backup

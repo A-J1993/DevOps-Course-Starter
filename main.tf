@@ -5,6 +5,12 @@ terraform {
  version = ">= 2.49"
  }
  }
+     backend "azurerm" {
+        resource_group_name  = "tfstate"
+        storage_account_name = "tfstate1304206509"
+        container_name       = "tfstate"
+        key                  = "terraform.tfstate"
+    }
 }
 provider "azurerm" {
  features {}
@@ -82,5 +88,5 @@ resource "azurerm_cosmosdb_mongo_database" "ajm-cosmos" {
  name                = "ajm-cosmos"
  resource_group_name = "CreditSuisse2_Ali-JohnMirsepassi_ProjectExercise"
  account_name        = azurerm_cosmosdb_account.main.name
- lifecycle { prevent_destroy = true }
+ #lifecycle { prevent_destroy = true }
 }

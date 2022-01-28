@@ -7,6 +7,7 @@ branches:
     - module-9
     - module-10
     - module-11
+    - module-12
 
 script:
   - docker build --target test --tag my-test-image . 
@@ -25,9 +26,9 @@ before_deploy:
   - heroku container:login
 deploy:
   provider: script
-  script: bash webhook.sh 
+  script: curl -dH -X POST "$(terraform output -raw cd_webhook)"
   on:
-    branch: module-11
+    branch: module-12
 
 
 

@@ -6,7 +6,7 @@ terraform {
  }
  }
      backend "azurerm" {
-        resource_group_name  = "tfstate"
+        resource_group_name  = "CreditSuisse2_Ali-JohnMirsepassi_ProjectExercise"
         storage_account_name = "tfstate1304206509"
         container_name       = "tfstate"
         key                  = "terraform.tfstate"

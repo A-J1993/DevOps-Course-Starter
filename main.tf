@@ -88,5 +88,5 @@ resource "azurerm_cosmosdb_mongo_database" "ajm-cosmos" {
  name                = "ajm-cosmos"
  resource_group_name = "CreditSuisse2_Ali-JohnMirsepassi_ProjectExercise"
  account_name        = azurerm_cosmosdb_account.main.name
- #lifecycle { prevent_destroy = true }
+ lifecycle { prevent_destroy = true }
 }

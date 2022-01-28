@@ -15,7 +15,7 @@ variable "CLIENT_ID"{
 
 }
 variable "CLIENT_SECRET"{
-
+    sensitive = true
 }
 
 variable "OAUTHLIB_INSECURE_TRANSPORT"{

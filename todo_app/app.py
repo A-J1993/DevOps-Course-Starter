@@ -22,6 +22,9 @@ from todo_app.ViewModel import ViewModel
 
 import os
 
+import logging
+
+
 
 def writer_required(func):
     @functools.wraps(func)
@@ -37,6 +40,7 @@ def writer_required(func):
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
+    logger = logging.getLogger(__name__)
 
     login_manager = LoginManager()
 
@@ -75,7 +79,8 @@ def create_app():
         user_response = requests.get(url, headers=headers, data=body)
         user  = User(user_response.json()['id'])
         login_user(user)
-        print("User ID is: " + str(user.id))
+        #print("User ID is: " + str(user.id))
+        app.logger.info("User " + str(user.id) + " logged in")
         return redirect(url_for('get_cards'))
 
     
@@ -87,6 +92,7 @@ def create_app():
         card_name = request.form['field_name']
         cards = card_board.cards
         post = cards.insert_one({"name": card_name, "status": "To Do", "dateLastActivity": datetime.now()})
+        app.logger.info("Card ("+ str(card_name) +") Posted")
         return redirect(url_for('get_cards'))
 
     
@@ -97,6 +103,7 @@ def create_app():
         card_board = mongo_client[os.getenv("DB_NAME")]
         cards = card_board.cards
         card_to_update = cards.update_one({"_id":ObjectId(_id)}, {"$set" : {"status": "Done", "dateLastActivity": datetime.now()}})
+        app.logger.info("Card (" + str(cards.find_one({"_id":ObjectId(_id)}).get("name")) + ") Completed")
         return redirect(url_for('get_cards'))
     
     return app

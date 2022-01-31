@@ -8,6 +8,7 @@ branches:
     - module-10
     - module-11
     - module-12
+    - module-13
 
 script:
   - docker build --target test --tag my-test-image . 
@@ -27,7 +28,7 @@ deploy:
   provider: script
   script: curl -dH -X POST "$(terraform output -raw cd_webhook)"
   on:
-    branch: module-12
+    branch: module-13
 
 
 
@@ -53,3 +54,4 @@ env:
     - secure: "RacM8PagHtHPAdx9twbzcd7J8MKfQ2tlV5I8VK1IPJ9wameuycj6k4MpCUjdGEOfNbTTU2XV3/fWE//3htRqLWcstWDGExAm013M33vpKDoPtag9e3x1xVwgpmjge4v9z9+LkJG+xh4GfUkB0XM2oPrw6SjQNCjfeN7Mx1lfaphtCRbuuj8FmrXP8nvxaTov7qAX63QY0Rv0wOptlCaK1iQRpHrDMWktSHd/5r181FAE8ydZGX+yKipznQk3nAA/q34cUsvPI2l3kvuCIlpv7HL7PYAe29dXSFnSx3q2w69jHlUN3Y/kPmvXml28R6/Sj0d5RRIjyGsSkf8bTbItc5MT+jHLcXZpoEVKJoA10OBywhmrJKoFQ+4Uiy42pNwIddqKsjYyYIoloHHgJF4OcdkFUGtbQsUpcSQOS3U5qaKALg7+GwvYon1iFclOvGVa1DvlYiY1+QdDLFFtCKmdXoor1EaiejuofoUX1ddqgAqejGe822sdHELQ+it2R63g3gIZItaJWSWeDI4dW9N0hmSAxlHCt23Q5mXllNcakUIAcr/9e5eBVroHLoCw9JQaXI29/c3wFtXwTaMXHKV+lzVXDvLGe1JTY5IisaKjk105dbpbbHff8Y4s628eDklzszgE0uh9FZ4D34WQJ5Ibcmay+83rasIPnjIrOu1HS00="
 
     - TF_VERSION=0.14.7
+    - secure: "PeNAAep7Wgl5OVpBo1Ny2rVlKnqIkEvIcL1PrV6kmqHmOQbR++s54xdgLa18uPxfka1z0s4yBSSKuT0XPIS4QU9KeQeHGQtBjJ8SDe/iA47gPD7GBn5Hz1+vAUsjfmMKTvI7qPoXBiF4Ky9SmzBse0D62dwq3DZc9rAywT6nkuUwLBDtccjqDyzaiiXCAaMJNrMTZNZBYlnP3JvPlhJ0anw0/UpJsdLobIPPCDeU8ZUUx3cGFBEfJvMYVro0FBgS1vBSfiyjvgW9emij7CfNUFv/zMaPtfQ73vium0a9PJ8TjLIyow1siZ0drPtz8RZLm2iDsxvi9n2Dg/xPKEsDMPrsXykF+7YSTDfKVWlIBpsSinicRlSJEpI/stTCquyQPwfJD+TGBV9umFlhyCMRZfyywNiIkaTJF5saQG/CumN0bCxdqVLqp4eqTwRm7jJt+Lh12AL932kZliPbj1MebIHn9dGHtUYa5JRnuplcFjwjsyeWfS5nu/Zq213U0h3aV0b356H96omHn37Uma1LDKSo/yNTFdhXm1a3zkeqbLoJXv4NgJpX8YIEtc8PSFsSDvIORQ+jKOXVTVhSVPbSuyrKm233C2iDmeLTE77gbTyoTethfMX72WEC4tLT6YNW8QT5LkWCPo3sySNWTIUjKLFM8XboRI0OIR5vyhEUyEY="

@@ -25,3 +25,11 @@ variable "OAUTHLIB_INSECURE_TRANSPORT"{
 variable "USER_ID" {
 
 }
+
+variable "LOG_LEVEL" {
+    default = "INFO"
+}
+
+variable "LOGGLY_TOKEN" {
+
+}

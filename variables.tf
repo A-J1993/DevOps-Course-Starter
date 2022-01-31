@@ -4,7 +4,7 @@ variable "location" {
  default = "uksouth"
 }
 variable "SECRET_KEY" {
-    default = "secret-key"
+    
 }
 
 variable "DB_NAME" {

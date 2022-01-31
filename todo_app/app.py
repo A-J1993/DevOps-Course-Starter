@@ -24,6 +24,9 @@ import os
 
 import logging
 
+from loggly.handlers import HTTPSHandler
+from logging import Formatter
+
 
 
 def writer_required(func):
@@ -41,6 +44,11 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
     logger = logging.getLogger(__name__)
+
+    if os.getenv('LOGGLY_TOKEN') is not None:
+        handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{os.getenv("LOGGLY_TOKEN")}/tag/todo-app')
+        handler.setFormatter(Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"))
+        app.logger.addHandler(handler)
 
     login_manager = LoginManager()
 
@@ -66,10 +74,23 @@ def create_app():
         all_cards = [ToDoCard.from_mongo_card(card) for card in cards.find()]
         view_model = ViewModel(all_cards)
         return render_template('cards.html', view_model= view_model)
+
+    @app.route('/auth_error')
+    def auth_error_page():
+        return render_template('auth_code_error.html')
+    
+    @app.route('/user_response_error')
+    def user_response_error():
+        return render_template('user_response_error.html')
+
     
     @app.route('/login/callback')
     def verification():
-        auth_code = request.args['code']
+        try:
+            auth_code = request.args['code']
+        except KeyError:
+            app.logger.error("auth_code missing")
+            return redirect(url_for('auth_error_page'))
         data = {"code": auth_code, "client_id": os.getenv("CLIENT_ID"), "client_secret": os.getenv("CLIENT_SECRET")}
         #requests.get("https://github.com/login/oauth/authorize", data = data)
         access_token_response = requests.post("https://github.com/login/oauth/access_token", data = data, headers={"Accept": "application/json"})
@@ -77,6 +98,10 @@ def create_app():
         client.parse_request_body_response(access_token_response.text)
         url, headers, body = client.add_token("https://api.github.com/user")
         user_response = requests.get(url, headers=headers, data=body)
+        if not user_response.ok:
+            app.logger.error("Problem with getting User info")
+            app.logger.error(user_response.text)
+            return redirect(url_for('user_response_error.html'))
         user  = User(user_response.json()['id'])
         login_user(user)
         #print("User ID is: " + str(user.id))

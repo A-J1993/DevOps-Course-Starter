@@ -21,7 +21,7 @@ install:
   - rm terraform_"$TF_VERSION"_linux_amd64.zip
   - terraform init 
 before_deploy:
-  - terraform apply -auto-approve -var 'CLIENT_ID'='c9d4bc4ddeb0af642b18' -var 'CLIENT_SECRET'=$CLIENT_SECRET -var "LOGGLY_TOKEN"=$LOGGLY_TOKEN -var 'SECRET_KEY'='secret-key' -lock=false
+  - terraform apply -auto-approve -var 'CLIENT_ID'='c9d4bc4ddeb0af642b18' -var 'CLIENT_SECRET'=$CLIENT_SECRET -var "LOGGLY_TOKEN"=$LOGGLY_TOKEN -var 'SECRET_KEY'='secret-key' -var 'USER_ID'=$USER_ID -lock=false
   - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
   - docker push ${DOCKER_USERNAME}/my-image-prod:latest
@@ -51,7 +51,10 @@ env:
     - secure: "Tuuq3aHWY3w6MD9jGfWpFTq2hnuch+UpOiDUbJWJOGgC/oYZWlEvk/hD9BTia5kti8B0KsAcpLSr3OEk5hAYqAaNgWSo1GdWG1WFcxVJDHHwD0igRGkHLVJ0tCcgM21aSUBjjXzMpZaNKCuugcXta/W1QDZzQLq2cT8a27VMzl0TUT7bswm93fg7WqHz7IQjiTt1c1iBNh4fHql1CMwrPtuLJCK+YRQ00vdGcL1JrfW0xCaMDiAjfq071mbCYyiDoOQhqsxHWiEUuwlYnHbMtjlgWdpuQ9FV/VX/z/xbfdl65mN0xglwnq7hw46e6s5DknpKGFJGhoPSasdMAU3aNMhtmzYdUCkrONjjPeVXN7Lqh6CuNW9nyjK/4Rja5UdbuICfgUaarJJkcEpYsUbv7KO4z0w11ARU7/MCOHBxJOoYm0/AqXU2QKKMh+Aj+yOK0XgETTDp9UkzoW0BA9K/M1iOP2O6e+zLyW+Tnmd/dUCFUTCwOm5ru1OUB5voV1lQhAe0E9hewGM/73Dg1g6I1lgYl7VxOA5/LCHZXfZmhmEmsv0sQoF0NWdsHckxe2ctwseYHA4ye8SJO1oPQMeWbIMVzae55+D799soLhecpIad1EGfgsgMN9+E4yGEfN8T7jj0pK1scnznXvtCma0tQf2sVYAfSM4zLhi8pzpCjbM="
 
     - secure: "rYoU42wkOS7E0geefZWd0XIPypDIbYfz/MBn4jrcrX5cEc74jrmPvKZRsO5lQ0Z86YGfKtKID/2sj5tm0GoFDT4gb7eS1maqhbnwhiNZEmdvLawx11+fgabXYLL0CWM7UAyvoLv9yg7VpUusrw1nwhUC2Z+PSrjHQp0RldDLvI4VvfaSu0Uq5rAqynNySgf0ZsR7/8hzbrPnTmXAbd7KE1Di9ICO9Q/GDQp1oDtiuZo0qDmJWEEARZURNVpUfQUY13ahxHL71dJPOFDPcrQ29MoVY7Wh77SEQLNNOWlPqc9ws4LmdeWT6pak2EAzFvpZj5mUTPGlW2t8TAKwxLxQjgjQRBZex/llY9lnkq2BDSNQgepdxWTNDXUlcoddIHAXGtuAyv7eepuac4UHFFO9mtL2mZb2K6WLRNHELeiwImQ9TPwQ56a6EI91OCQdd4eZYtCa0Aw7SzAJ4m7tyCHnP726gmZp8ySu6sm2zceChXvsW/TvIxcqj8MHTvi50lvn34f0A5TVxoUdTKYtq3usp/kG3yq4M67yKz1k6oVDAkm5JTaxRmN1loVq1gCXQYHHyvmL+EI2hK8iCjhqmIal2V1weIk9jpZlSdRSYMPHmXmZWtOx1sIPunBOJZW3ZvPwg3ZRTYjZq99canfufs37xEApykbej17P3IgS0bFeMuo="
-
+    
+    
+    - secure: "YLlOsvFR7FweMqrlJuetFY8kxkCJQ1GW7Y6dF70qubkhDEo0nq8YnB0He0Yij2ZTRW2lr/hlP5n38Xz8xpQpZNxgoL0m+qTA8yGo0NI8h3pOS2WPSCOYAms1GKfC4bTWMDXmcTOV5OoytwcKgYetNYtczRVNedWIFuor5kEN63fBGXvftcr9BaPNtfiqbhJSdqJuEzYJcMtOjju4d5U4tpeuMxS2s0PjBQ7Z0rKxVuO90nnDpUD3+taZyG0Fz4RzUTC7RCxEM/9GtlrptEzlU2ePLzlFMcY+77ASYwiBZhHY489AUINitx6YL8nXRKw8fxhqlnaMthYpiZ+5KRHTb+qFfFLmDuqrnVkCTEV9RjrGn4uqx1IZyHfzL19r7fhCRCIfP28w3ckB8goEqR0HWnObFBVoIaRATiwptJvXVe0VHzOFipOelpGnIcwj+CMoa/iZ9avWfPnEPP/OXYX9qVEC/h7stS3PVUvcjrdSt3dQlarNdRZg6dGhN7mru+9zwwgAvBFBm48kcGLLha1sZ9OGIN+3S4BRB3CxcYjILKOK109nB+AP3r0iV6Pz7FrQVcHtPrU6EOqpW4KQTVEXN27wMoHc0ORf6Mm+mtqWJKz3zICt/unA3KPh+KWU7Hrr3fegvO8aZ2DjFJZzXgWm3DmwSPDmEKZ0315YyPRS3EQ="
+    
     - ARM_CLIENT_ID=7ec67553-f594-41be-a99c-58925d3e40fa
     - ARM_TENANT_ID=7d6f97d6-d755-4c10-b763-409cc4b6638f
     - ARM_SUBSCRIPTION_ID=d33b95c7-af3c-4247-9661-aa96d47fccc0

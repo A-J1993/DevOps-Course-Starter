@@ -25,6 +25,7 @@ before_deploy:
   - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
   - docker push ${DOCKER_USERNAME}/my-image-prod:latest
 deploy:
+  skip_cleanup: true
   provider: script
   script: bash webhook.sh
   on:

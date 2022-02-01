@@ -21,7 +21,7 @@ install:
   - rm terraform_"$TF_VERSION"_linux_amd64.zip
   - terraform init 
 before_deploy:
-  - terraform apply -auto-approve -var 'CLIENT_ID'='c9d4bc4ddeb0af642b18' -var 'CLIENT_SECRET'=$CLIENT_SECRET -var "LOGGLY_TOKEN"=$LOGGLY_TOKEN -lock=false
+  - terraform apply -auto-approve -var 'CLIENT_ID'='c9d4bc4ddeb0af642b18' -var 'CLIENT_SECRET'=$CLIENT_SECRET -var "LOGGLY_TOKEN"=$LOGGLY_TOKEN -var 'SECRET_KEY'='secret-key' -lock=false
   - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
   - docker push ${DOCKER_USERNAME}/my-image-prod:latest

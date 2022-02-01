@@ -21,6 +21,7 @@ install:
   - rm terraform_"$TF_VERSION"_linux_amd64.zip
   - terraform init 
 before_deploy:
+  - terraform_apply -auto-approve
   - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
   - docker build --target production --tag ${DOCKER_USERNAME}/my-image-prod:latest .
   - docker push ${DOCKER_USERNAME}/my-image-prod:latest

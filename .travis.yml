@@ -26,7 +26,7 @@ before_deploy:
   - docker push ${DOCKER_USERNAME}/my-image-prod:latest
 deploy:
   provider: script
-  script: curl -dH -X POST "$(terraform output -raw cd_webhook)"
+  script: webhook.sh
   on:
     branch: module-13
 

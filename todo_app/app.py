@@ -44,6 +44,7 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(Config())
     logger = logging.getLogger(__name__)
+    app.logger.setLevel(os.getenv('LOG_LEVEL', 'INFO'))
 
     if os.getenv('LOGGLY_TOKEN') is not None:
         handler = HTTPSHandler(f'https://logs-01.loggly.com/inputs/{os.getenv("LOGGLY_TOKEN")}/tag/todo-app')
@@ -104,7 +105,6 @@ def create_app():
             return redirect(url_for('user_response_error.html'))
         user  = User(user_response.json()['id'])
         login_user(user)
-        #print("User ID is: " + str(user.id))
         app.logger.info("User " + str(user.id) + " logged in")
         return redirect(url_for('get_cards'))
 

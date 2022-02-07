@@ -121,6 +121,4 @@ for end-to-end testing
 
 ## Instrictions for CI/CD build
 
-While one can run pull request builds at ease via the Travis Website, one can only use Continuous Delivery with a git push build (a build that occurs in Travis once there is a git push) which then passes through to Heroku.
-
-While Travis file uses travis.yml to get the variables for the CI build, one needs to go to the Heroku website directly to insert the Environment Variables.
+While one can run pull request builds at ease via the Travis Website, one can only use Continuous Delivery with a git push build (a build that occurs in Travis once there is a git push) which then deploys the application via terraform.

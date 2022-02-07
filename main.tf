@@ -53,6 +53,9 @@ resource "azurerm_app_service" "main" {
  
  "USER_ID"= var.USER_ID
  "REDIRECT_URI"="https://ajm-tf-based-app.azurewebsites.net/login/callback"
+
+ "LOG_LEVEL"=var.LOG_LEVEL
+ "LOGGLY_TOKEN" = var.LOGGLY_TOKEN
  
  }
 }

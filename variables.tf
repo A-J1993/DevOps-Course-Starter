@@ -4,7 +4,7 @@ variable "location" {
  default = "uksouth"
 }
 variable "SECRET_KEY" {
-    default = "secret-key"
+    
 }
 
 variable "DB_NAME" {
@@ -23,5 +23,13 @@ variable "OAUTHLIB_INSECURE_TRANSPORT"{
 }
 
 variable "USER_ID" {
+
+}
+
+variable "LOG_LEVEL" {
+    default = "INFO"
+}
+
+variable "LOGGLY_TOKEN" {
 
 }

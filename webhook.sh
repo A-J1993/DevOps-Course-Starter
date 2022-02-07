@@ -1,1 +1,1 @@
-curl -dH -X POST "$WEBHOOK_URL"
+curl -dH -X POST "$(terraform output -raw cd_webhook)" --fail

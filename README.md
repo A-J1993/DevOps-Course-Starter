@@ -86,7 +86,7 @@ Where ```<stage>``` is either ```base```, ```development```, or ```production```
 If just wanting to run the image on production, run:
 
 ```bash
-$ docker run --env-file .env  -p 8080:8000 <tag> 
+$ docker run --env-file .env  -p 8000:8080 <tag> 
 ```
 
 If wanting to run the development or the production build (which should be done via a bind mount), enter on the command line:

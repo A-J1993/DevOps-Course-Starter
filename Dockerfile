@@ -14,6 +14,7 @@ RUN poetry config virtualenvs.create false --local && poetry install --no-dev --
 COPY /todo_app ./todo_app
 COPY /entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+#ENV PORT=8000
 ENTRYPOINT /entrypoint.sh
 
 FROM base as development
